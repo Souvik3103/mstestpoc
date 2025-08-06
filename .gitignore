@@ -1,0 +1,63 @@
+# === Node.js Backend ===
+/mstest-backend/node_modules/
+/mstest-backend/.env
+/mstest-backend/*.log
+/mstest-backend/npm-debug.log*
+/mstest-backend/yarn-debug.log*
+/mstest-backend/yarn-error.log*
+/mstest-backend/dist/
+/mstest-backend/build/
+
+# === React Frontend ===
+/mstest-dashboard/node_modules/
+/mstest-dashboard/build/
+/mstest-dashboard/dist/
+/mstest-dashboard/.env
+/mstest-dashboard/.env.local
+/mstest-dashboard/.DS_Store
+
+# === VS Code Settings ===
+.vscode/
+/testDiscovery/.vs/
+
+# === C# / .NET ===
+# Build results
+**/bin/
+**/obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider project files
+.idea/
+
+# VS for Mac
+*.userprefs
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Logs
+*.log
+
+# === OS / Editor junk ===
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+*.bak
+
+# === Test Results ===
+TestResults/
+*.coverage
+*.coveragexml
+*.trx
+
+# === Others ===
+*.ncrunch*
+*.resharper
+_ReSharper*/
+*.DotSettings.user
