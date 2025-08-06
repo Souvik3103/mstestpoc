@@ -1,9 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const { spawn } = require('child_process');
-
 const app = express();
 app.use(cors());
+
+const { VSTEST_CONSOLE_PATH, DEFAULT_PORT, TEST_DISCOVERY_DLL } = require('./config/constants');
+//const TEST_DISCOVERY_DLL = "..\\tools\\testDiscovery\\bin\\Debug\\net9.0\\testDiscovery.dll"
 
 // SSE Endpoint for running tests
 app.get('/run-tests-stream', (req, res) => {
@@ -27,17 +29,15 @@ app.get('/run-tests-stream', (req, res) => {
   res.write(`data: Settings Path: ${settingsPath ? 'Valid' : 'Invalid'}\n\n`);
   res.write(`data: Test Case Filter: ${testCaseFilter ? 'Provided' : 'Not Provided, all tests in dll will run'}\n\n`);
 
-  const vstestPath = `"C:\\Program Files\\Microsoft Visual Studio\\2022\\Professional\\Common7\\IDE\\CommonExtensions\\Microsoft\\TestWindow\\vstest.console.exe"`;
-
   let args = [dllPath, '/Settings:' + settingsPath];
 
   if (testCaseFilter) {
     args.push(`"/TestCaseFilter:${testCaseFilter}"`);
   }
 
-  console.log('Running command:', vstestPath, args.join(' '));
+  console.log('Running command:', VSTEST_CONSOLE_PATH, args.join(' '));
 
-  const testProcess = spawn(vstestPath, args, { shell: true });
+  const testProcess = spawn(VSTEST_CONSOLE_PATH, args, { shell: true });
 
   testProcess.stdout.on('data', (data) => {
     const output = data.toString().split('\n');
@@ -74,7 +74,7 @@ app.get('/list-tests', (req, res) => {
   const dllPath = req.query.dll;
   if (!dllPath) return res.status(400).json({ error: 'Missing DLL path' });
 
-  const tagProcess = spawn('dotnet', ["D:\\mstestpoc\\testDiscovery\\bin\\Debug\\net9.0\\testDiscovery.dll", dllPath], { shell: true });
+  const tagProcess = spawn('dotnet', [TEST_DISCOVERY_DLL, dllPath], { shell: true });
     
   let output = '';
   let errorOutput = '';
@@ -115,9 +115,9 @@ app.get('/list-tests', (req, res) => {
 app.get('/list-tags', (req, res) => {
   const dllPath = req.query.dll;
   if (!dllPath) return res.status(400).json({ error: 'Missing DLL path' });
-    console.log('Running command:', 'dotnet', "D:\\mstestpoc\\testDiscovery\\bin\\Debug\\net9.0\\testDiscovery.dll", dllPath);
+    console.log('Running command:', 'dotnet', TEST_DISCOVERY_DLL, dllPath);
   // Run DLL with --list-tags which outputs JSON
-  const tagProcess = spawn('dotnet', ["D:\\mstestpoc\\testDiscovery\\bin\\Debug\\net9.0\\testDiscovery.dll", dllPath], { shell: true });
+  const tagProcess = spawn('dotnet', [TEST_DISCOVERY_DLL, dllPath], { shell: true });
     
    let output = '';
   let errorOutput = '';
@@ -156,7 +156,6 @@ app.get('/list-tags', (req, res) => {
   });
 });
 
-const port = 5000;
-app.listen(port, () => {
-  console.log(`Backend server running at http://localhost:${port}`);
+app.listen(DEFAULT_PORT, () => {
+  console.log(`Backend server running at http://localhost:${DEFAULT_PORT}`);
 });

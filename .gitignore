@@ -25,6 +25,7 @@
 # Build results
 **/bin/
 **/obj/
+binaries/
 
 # User-specific files
 *.user
