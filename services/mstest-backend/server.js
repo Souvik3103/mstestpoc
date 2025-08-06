@@ -5,7 +5,6 @@ const app = express();
 app.use(cors());
 
 const { VSTEST_CONSOLE_PATH, DEFAULT_PORT, TEST_DISCOVERY_DLL } = require('./config/constants');
-//const TEST_DISCOVERY_DLL = "..\\tools\\testDiscovery\\bin\\Debug\\net9.0\\testDiscovery.dll"
 
 // SSE Endpoint for running tests
 app.get('/run-tests-stream', (req, res) => {
@@ -123,7 +122,6 @@ app.get('/list-tags', (req, res) => {
   let errorOutput = '';
 
   tagProcess.stdout.on('data', (data) => {
-    console.log('STDOUT:', data.toString());
     output += data.toString();
   });
 
