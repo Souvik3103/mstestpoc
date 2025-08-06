@@ -19,6 +19,7 @@
 # === VS Code Settings ===
 .vscode/
 /testDiscovery/.vs/
+.vs/
 
 # === C# / .NET ===
 # Build results
